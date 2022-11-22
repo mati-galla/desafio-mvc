@@ -14,14 +14,14 @@ class ProductsCollection{
   data: Product[] = [];
 
   load(){
-    this.data = js.readFileSync(__dirname + '/productos.json');
+    return js.readFile(__dirname + '/productos.json').then((data => this.data = data));
   }
 
   add(prod: Product | Product[]){
     (Array.isArray(prod))
     ? this.data = this.data.concat(prod)
     : this.data.push(prod);
-    js.writeFileSync(__dirname + '/productos.json',this.data);
+    return js.writeFile(__dirname + '/productos.json',this.data);
   }
 
   getAll(){

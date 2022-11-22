@@ -29,12 +29,13 @@ function parsearArgv(argv){
 function main() {
   const argumentos = parsearArgv(process.argv);
   const controlador = new ProductController();
-  const resultado = controlador.processOptions(argumentos.action,argumentos.param);
-  if (resultado) {
-    console.log(resultado)
-} else {
-  console.log(`Se guardo el producto`, argumentos.param)
-}
+  controlador.processOptions(argumentos.action,argumentos.param).then((resultado) => {
+    if (resultado) {
+     console.log(resultado);
+    } else {
+     console.log(`Se guardo el producto`, argumentos.param);
+    }
+  })
 }
 
 main();
