@@ -13,10 +13,11 @@ function parsearArgv(argv){
   :accion = undefined;
 
   var parametro: "number" | Product;
-  if(typeof Object.values(argumentos)[0] !== "boolean"){
-    (typeof Object.values(argumentos)[0] == "number") ? parametro = Object.values(argumentos)[0]
-    :(Object.values(argumentos)[0].includes('{"name":') * Object?.values(argumentos)[0].includes('"id":'))
-    ? parametro = new Product(JSON.parse(Object.values(argumentos)[0]).name,JSON.parse(Object.values(argumentos)[0]).id)
+  const param: "number" | "string" | "boolean" = Object.values(argumentos)[0];
+  if(typeof param !== "boolean"){
+    (typeof param == "number") ? parametro = param
+    :(param.includes('{"name":') && param.includes('"id":'))
+    ? parametro = new Product(JSON.parse(param).name,JSON.parse(param).id)
     :parametro = undefined;
   }
 
@@ -26,16 +27,16 @@ function parsearArgv(argv){
   }
 }
 
-function main() {
+async function main() {
   const argumentos = parsearArgv(process.argv);
   const controlador = new ProductController();
-  controlador.processOptions(argumentos.action,argumentos.param).then((resultado) => {
+  const resultado = await controlador.processOptions(argumentos.action,argumentos.param)
     if (resultado) {
      console.log(resultado);
     } else {
      console.log(`Se guardo el producto`, argumentos.param);
     }
-  })
+  
 }
 
 main();

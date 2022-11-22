@@ -13,15 +13,15 @@ class Product{
 class ProductsCollection{ 
   data: Product[] = [];
 
-  load(){
-    return js.readFile(__dirname + '/productos.json').then((data => this.data = data));
+  async load(){
+    this.data = await js.readFile(__dirname + '/productos.json')
   }
 
-  add(prod: Product | Product[]){
+  async add(prod: Product | Product[]){
     (Array.isArray(prod))
     ? this.data = this.data.concat(prod)
     : this.data.push(prod);
-    return js.writeFile(__dirname + '/productos.json',this.data);
+    await js.writeFile(__dirname + '/productos.json',this.data);
   }
 
   getAll(){
